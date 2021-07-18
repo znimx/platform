@@ -15,6 +15,7 @@ interface StakingPool {
     function getStakeTotalDeposited(address _account, uint256 poolId) external view returns (uint256);
 }
 
+// Simple vault for autocompounding ALCX rewards from single-stake ALCX pool 
 contract AlcxVault is ERC20 {
 
     // built in overflow checks from solidity 0.8
@@ -154,7 +155,7 @@ contract AlcxVault is ERC20 {
         uint256 strategistFeeAmount;
         (strategistFeeAmount, harvestFeeAmount) = _exitFees();
 
-        alcxStakingPool.exit(POOL_ID);
+        alcxStakingPool.claim(POOL_ID);
 
         alcx.safeTransfer(strategist, strategistFeeAmount); 
         alcx.safeTransfer(msg.sender, harvestFeeAmount);
